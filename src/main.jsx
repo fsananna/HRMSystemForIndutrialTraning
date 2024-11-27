@@ -15,13 +15,14 @@ import Attendance from './components/Attendance/Attendance';
 import Payroll from './components/Payroll/Payroll';
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />
-  },
+ 
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/',
+    element: <Home />
   },
   {
     path: '/dashboard',

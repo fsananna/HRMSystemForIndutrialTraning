@@ -5,10 +5,19 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        wave: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
+      },
+      animation: {
+        wave: 'wave 15s linear infinite',
+      },
+    },
   },
   plugins: [
     require('daisyui'),
   ],
-}
-
+};
