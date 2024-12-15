@@ -13,6 +13,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Employees from './components/Employees/Employees';
 import Attendance from './components/Attendance/Attendance';
 import Payroll from './components/Payroll/Payroll';
+import AttendancePage from './pages/AttendancePage/AttendancePage';
 
 const router = createBrowserRouter([
   {
@@ -31,19 +32,22 @@ const router = createBrowserRouter([
     path: '/employees',
     element: <Employees />
   },
-  {
-    path: '/attendance',
-    element: <Attendance />
-  },
+ 
   {
     path: '/payroll',
     element: <Payroll />
+  }
+  ,
+  {
+    path: '/attendance',
+    element: <AttendancePage />
   }
 ])
 
 const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
+    
     <RouterProvider router={router} />
   </StrictMode>
 );
