@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
@@ -9,11 +6,13 @@ import {
   CreditCard, 
   BarChart2, 
   Settings, 
-  LogOut 
+  LogOut, 
+  Menu 
 } from 'lucide-react';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const renderContent = () => {
     switch(activeSection) {
@@ -33,45 +32,64 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md">
+      <div
+        className={`
+          fixed inset-y-0 left-0 transform bg-white shadow-md z-20 
+          w-64 transition-transform duration-300 ease-in-out 
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+          md:translate-x-0 md:static flex flex-col
+        `}
+      >
         <div className="p-6 text-center border-b">
           <h1 className="text-2xl font-bold text-blue-600">HR Portal</h1>
         </div>
-        <nav className="mt-6">
-          <SidebarItem 
-            icon={<LayoutDashboard />} 
-            label="Dashboard" 
-            active={activeSection === 'dashboard'}
-            onClick={() => setActiveSection('dashboard')}
-          />
-          <SidebarItem 
-            icon={<Users />} 
-            label="Employee Management" 
-            active={activeSection === 'employees'}
-            onClick={() => setActiveSection('employees')}
-          />
-          <SidebarItem 
-            icon={<Clock />} 
-            label="Attendance" 
-            active={activeSection === 'attendance'}
-            onClick={() => setActiveSection('attendance')}
-          />
-          <SidebarItem 
-            icon={<CreditCard />} 
-            label="Payroll" 
-            active={activeSection === 'payroll'}
-            onClick={() => setActiveSection('payroll')}
-          />
-        </nav>
-        <div className="absolute bottom-0 w-64 p-4 border-t">
-          <SidebarItem 
-            icon={<Settings />} 
-            label="Settings" 
-          />
-          <SidebarItem 
-            icon={<LogOut />} 
-            label="Logout" 
-          />
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto">
+          <nav className="mt-6">
+            <SidebarItem 
+              icon={<LayoutDashboard />} 
+              label="Dashboard" 
+              active={activeSection === 'dashboard'}
+              onClick={() => {
+                setActiveSection('dashboard');
+                setSidebarOpen(false); // Close on mobile
+              }}
+            />
+            <SidebarItem 
+              icon={<Users />} 
+              label="Employee Management" 
+              active={activeSection === 'employees'}
+              onClick={() => {
+                setActiveSection('employees');
+                setSidebarOpen(false);
+              }}
+            />
+            <SidebarItem 
+              icon={<Clock />} 
+              label="Attendance" 
+              active={activeSection === 'attendance'}
+              onClick={() => {
+                setActiveSection('attendance');
+                setSidebarOpen(false);
+              }}
+            />
+            <SidebarItem 
+              icon={<CreditCard />} 
+              label="Payroll" 
+              active={activeSection === 'payroll'}
+              onClick={() => {
+                setActiveSection('payroll');
+                setSidebarOpen(false);
+              }}
+            />
+          </nav>
+        </div>
+
+        {/* Bottom Buttons */}
+        <div className="border-t p-4">
+          <SidebarItem icon={<Settings />} label="Settings" />
+          <SidebarItem icon={<LogOut />} label="Logout" />
         </div>
       </div>
 
@@ -79,6 +97,13 @@ const Dashboard = () => {
       <div className="flex-1 overflow-y-auto p-6">
         {/* Top Header */}
         <header className="flex justify-between items-center mb-6">
+          {/* Hamburger Menu for Mobile */}
+          <button 
+            className="md:hidden text-gray-600" 
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <Menu className="w-6 h-6" />
+          </button>
           <h2 className="text-2xl font-semibold">
             {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}
           </h2>
@@ -96,16 +121,22 @@ const Dashboard = () => {
         {/* Dynamic Content Area */}
         {renderContent()}
       </div>
+
+      {/* Backdrop for Mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
     </div>
   );
 };
 
 const SidebarItem = ({ icon, label, active, onClick }) => (
   <div 
-    className={`
-      flex items-center p-3 cursor-pointer 
-      ${active ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}
-    `}
+    className={`flex items-center p-3 cursor-pointer 
+      ${active ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100'}`}
     onClick={onClick}
   >
     {icon}

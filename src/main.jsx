@@ -8,11 +8,11 @@ import {
 
 // Import Pages
 import Home from './components/Home/Home';
-import Login from './components/Login/Login';
+import Login from './pages/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
-import Employees from './components/Employees/Employees';
-import Attendance from './components/Attendance/Attendance';
-import Payroll from './components/Payroll/Payroll';
+import Employees from './pages/Employees/Employees';
+import Attendance from './pages/Attendance/Attendance';
+import Payroll from './pages/Payroll/Payroll';
 import AttendancePage from './pages/AttendancePage/AttendancePage';
 
 const router = createBrowserRouter([
